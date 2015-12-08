@@ -10,8 +10,9 @@ def build_absolute_uri(path):
     """Turn a relative URL into an absolute URL."""
     from django.contrib.sites.models import Site
     site = Site.objects.get_current()
-    return '{protocol}://{domain}{path}'.format(
+    return '{protocol}://{domain}{port}{path}'.format(
         protocol=getattr(settings, 'ABSOLUTEURI_PROTOCOL', 'http'),
+        port=':%s' if getattr(settings, 'ABSOLUTEURI_PORT', False) else '',
         domain=site.domain,
         path=path
     )
